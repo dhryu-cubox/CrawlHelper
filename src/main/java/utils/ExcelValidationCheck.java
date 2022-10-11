@@ -27,12 +27,12 @@ public class ExcelValidationCheck {
 
 
         try {
-            InputStream inp = new FileInputStream("C:\\Users\\dahee\\Downloads\\구매리스트\\장바구니 리스트.xlsx");
+            InputStream inp = new FileInputStream("장바구니 리스트.xlsx");
             workbook = new XSSFWorkbook(inp);
         } catch (Exception e){
             e.printStackTrace();
             if(workbook !=null) {
-                FileOutputStream fileOut = new FileOutputStream("C:\\Users\\dahee\\Downloads\\구매리스트\\장바구니 리스트.xlsx");
+                FileOutputStream fileOut = new FileOutputStream("장바구니 리스트.xlsx");
                 workbook.write(fileOut);
                 fileOut.close();
             }
@@ -91,7 +91,7 @@ public class ExcelValidationCheck {
         out.println("입력완료");
 
         if(workbook != null) {
-            FileOutputStream fileOut = new FileOutputStream("C:\\Users\\dahee\\Downloads\\구매리스트\\장바구니 리스트.xlsx");
+            FileOutputStream fileOut = new FileOutputStream("장바구니 리스트.xlsx");
             workbook.write(fileOut);
             fileOut.close();
         }
