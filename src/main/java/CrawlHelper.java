@@ -1,5 +1,3 @@
-package CrawlHelper;
-
 import utils.DaisoCart;
 import utils.DaisoCrawler;
 import utils.ExcelHelper;
@@ -12,6 +10,7 @@ import java.io.InputStreamReader;
 public class CrawlHelper {
 
     public static void main(String[] args) throws Exception {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
             System.out.println("1. 엑셀입력\n2. 장바구니담기\n3. 구매내역확인\nexit을 입력하면 종료합니다.");
@@ -36,7 +35,7 @@ public class CrawlHelper {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("영수증 번호를 입력하세요");
         // TODO 영수증번호를 입력하세요
-        String oid = "20221007135428-39729"; // br.readLine();
+        String oid = br.readLine();
         ExcelValidationCheck e = new ExcelValidationCheck();
         e.findList(oid);
     }

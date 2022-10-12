@@ -11,19 +11,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
-import static java.lang.System.err;
 import static java.lang.System.out;
 
 public class DaisoCart {
+
+
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -34,7 +33,6 @@ public class DaisoCart {
                     .addArguments("--disable-gpu")                          //gpu 비활성화
                     .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
     public void insert() throws Exception {
-
         login();
 
         InputStream inp = new FileInputStream("구매 예정 리스트.xlsx");
@@ -52,6 +50,10 @@ public class DaisoCart {
             Row row = rowIterator.next();
             int rowNum = row.getRowNum(); // 열 번호
 
+            if (rowNum == 0) {
+                continue; // 첫번째 열 skip
+            }
+
             String url = row.getCell(5).getStringCellValue(); // url
             String option = row.getCell(7).getStringCellValue(); // 옵션
 
@@ -59,9 +61,7 @@ public class DaisoCart {
                 out.println(rowNum + "번 중복 상품입니다. 장바구니에 등록되지 않습니다.");
                 continue;
             }
-            if (rowNum == 0) {
-                continue; // 첫번째 열 skip
-            }
+
 
             driver.get(url);    //브라우저에서 url로 이동한다.
             // 장바구니 버튼이 로딩될때까지 기다린다
@@ -108,10 +108,6 @@ public class DaisoCart {
 
         driver.close();	//탭 닫기
         driver.quit();	//브라우저 닫기
-
-
-
-
 
     }
 

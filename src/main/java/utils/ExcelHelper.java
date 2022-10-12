@@ -22,7 +22,7 @@ public class ExcelHelper {
             sheet = workbook.getSheetAt(0);
         } catch (Exception e){
             e.printStackTrace();
-            if(workbook !=null) {
+            if(workbook != null) {
                 FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
                 workbook.write(fileOut);
                 fileOut.close();

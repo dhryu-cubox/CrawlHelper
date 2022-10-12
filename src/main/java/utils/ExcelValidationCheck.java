@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.awt.*;
 import java.io.*;
 import java.util.List;
 
@@ -78,14 +77,8 @@ public class ExcelValidationCheck {
             XSSFCell cell = row.createCell(0);
             cell.setCellValue(elem.getText());
             cell = row.createCell(1);
-            cell.setCellFormula("COUNTIF('제출용'!C:C,A"+(rowNum+1) +")");
+            cell.setCellFormula("COUNTIF('입고검사'!C:C,A"+(rowNum+1) +")");
             evaluator.evaluateFormulaCell(cell);
-            /*if(cell.getNumericCellValue() == 2.0 || cell.getNumericCellValue() == 0.0) {
-                cell.setCellValue("");
-            } else {
-                cell.setCellValue("OK");
-
-            }*/
 
         }
         out.println("입력완료");
