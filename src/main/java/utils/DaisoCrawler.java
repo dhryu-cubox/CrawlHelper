@@ -13,8 +13,8 @@ public class DaisoCrawler {
     private static String url = "";
     private static String code = "";
 
-    public List process(String url, String code) {
-        List dataList = new ArrayList();
+    public List<String> process(String url, String code) {
+        List<String> dataList = new ArrayList();
 
         WebDriver driver = new ChromeDriver(
                 new ChromeOptions()

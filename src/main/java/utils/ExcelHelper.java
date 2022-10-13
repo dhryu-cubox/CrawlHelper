@@ -33,7 +33,7 @@ public class ExcelHelper {
     public void enterData(List scrapedData) throws Exception {
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); // 엑셀 함수를 읽어주는 놈
 
-        // 행 만들기
+        // 다음 행 만들기
         int rows = sheet.getPhysicalNumberOfRows();
         XSSFRow row = sheet.createRow(rows);
 

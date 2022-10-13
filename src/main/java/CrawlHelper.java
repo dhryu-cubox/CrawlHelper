@@ -6,6 +6,7 @@ import utils.ExcelValidationCheck;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class CrawlHelper {
 
@@ -46,26 +47,25 @@ public class CrawlHelper {
         cart.insert();
     }
 
-    private static void excelInsert() throws IOException {
+    private static void excelInsert() throws Exception {
         DaisoCrawler daisoCrawler = new DaisoCrawler();
         ExcelHelper excelHelper = new ExcelHelper();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
-            try {
                 System.out.println("소분류 코드를 입력하세요");
                 String code = br.readLine();
-                if(code.equalsIgnoreCase("exit")) return;
+                if(code.trim().equalsIgnoreCase("exit")) return;
 
                 System.out.println("url을 입력하세요:");
                 String url = br.readLine();
-                if(url.equalsIgnoreCase("exit")) return;
+                if(url.trim().equalsIgnoreCase("exit")) return;
+                try {
+                    List<String> data = daisoCrawler.process(url, code);
+                    if (data.isEmpty()) continue;
+                    excelHelper.enterData(data);
+                } catch (Exception e) {
 
-                excelHelper.enterData(daisoCrawler.process(url, code));
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-
+                }
         }
     }
 }
