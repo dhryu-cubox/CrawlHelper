@@ -23,14 +23,21 @@ import static java.lang.System.out;
 public class DaisoCart {
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
-    private WebDriver driver = new ChromeDriver(
-            new ChromeOptions()
-                    .addArguments("--disable-popup-blocking")               //팝업안띄움
-                    .addArguments("headless")                               //브라우저 안띄움
-                    .addArguments("--disable-gpu")                          //gpu 비활성화
-                    .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
+
+    private WebDriver driver;
+
+    public DaisoCart() {
+        driver = new ChromeDriver(
+                new ChromeOptions()
+                        .addArguments("--disable-popup-blocking")               //팝업안띄움
+                        .addArguments("headless")                               //브라우저 안띄움
+                        .addArguments("--disable-gpu")                          //gpu 비활성화
+                        .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
+    }
+
     public void insert() throws Exception {
-        login();
+        Login login = new Login();
+        login.run(driver, "https://www.daisomall.co.kr/member/login.php?url=");
 
         InputStream inp = new FileInputStream("구매 예정 리스트.xlsx");
         workbook = new XSSFWorkbook(inp);
@@ -40,7 +47,6 @@ public class DaisoCart {
 
         // 엑셀 파일을 읽는다.
         Iterator<Row> rowIterator = sheet.rowIterator();
-
 
         // row 수 만큼
         while (rowIterator.hasNext()) {
@@ -88,7 +94,7 @@ public class DaisoCart {
                 }
 
                 driver.switchTo().alert().dismiss(); // 장바구니 보기 취소
-                out.println(String.format(rowNum + "번 장바구니 담기 완료"));
+                out.println(String.format(rowNum + "번 상품 장바구니 담기 완료"));
                 row.createCell(10).setCellValue("담기완료");
 
             } catch (Exception e) {
@@ -103,30 +109,15 @@ public class DaisoCart {
         fileOut.close();
 
         out.println("장바구니 등록 완료\n등록실패한 상품은 아래와 같습니다.");
-        out.println(errors);
+        for(String e : errors){
+            out.printf("%s\n", e);
+        }
 
         driver.close();	//탭 닫기
         driver.quit();	//브라우저 닫기
 
     }
 
-    public void login() {
 
-        try {
-            String url = "https://www.daisomall.co.kr/member/login.php?url=";
-            String id = "sstlabs";
-            String pw = "Sstlabs1";
-            driver.get(url);
-            driver.findElement(By.name("id")).sendKeys(id);
-            driver.findElement(By.name("pw")).sendKeys(pw);
-            driver.findElement(By.name("pw")).sendKeys(Keys.ENTER);
-            Thread.sleep(500);
-
-            out.println("로그인 완료");
-        } catch (Exception e) {
-            out.println("로그인 실패");
-        }
-
-    }
 
 }

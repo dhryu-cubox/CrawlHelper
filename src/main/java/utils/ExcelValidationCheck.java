@@ -22,9 +22,9 @@ public class ExcelValidationCheck {
     private XSSFSheet sheet;
     private XSSFWorkbook workbook;
 
+    private Login login;
+
     public ExcelValidationCheck() throws IOException {
-
-
         try {
             InputStream inp = new FileInputStream("장바구니 리스트.xlsx");
             workbook = new XSSFWorkbook(inp);
@@ -50,14 +50,7 @@ public class ExcelValidationCheck {
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
         // 로그인
         String url = "https://www.daisomall.co.kr/mypage/order_detail.php?oid="+ oid;
-        String id = "sstlabs";
-        String pw = "Sstlabs1";
-        driver.get(url);
-        driver.findElement(By.name("id")).sendKeys(id);
-        driver.findElement(By.name("pw")).sendKeys(pw);
-        driver.findElement(By.name("pw")).sendKeys(Keys.ENTER);
-        out.println("로그인 완료");
-        Thread.sleep(5000);
+        login.run(driver, url);
 
         // 상품명 리스트 추출
         List<WebElement> productNameList = driver.findElements(By.name("deliverymsg")).get(0)
@@ -67,7 +60,6 @@ public class ExcelValidationCheck {
             /**
              *  데이터를 가져온 다음 새 시트에 전부 입력한다.
              *  가져온 값과 일치여부를 확인하는 함수를 입력한다.
-             *
              */
             // 행 만들기
             int rowNum = sheet.getPhysicalNumberOfRows();
@@ -88,20 +80,9 @@ public class ExcelValidationCheck {
             workbook.write(fileOut);
             fileOut.close();
         }
-
         driver.close();	//탭 닫기
         driver.quit();	//브라우저 닫기
 
-    }
-
-    public void changeCellBackgroundColor(XSSFCell cell) {
-        CellStyle cellStyle = cell.getCellStyle();
-        if(cellStyle == null) {
-            cellStyle = cell.getSheet().getWorkbook().createCellStyle();
-        }
-        cellStyle.setFillForegroundColor(IndexedColors.LEMON_CHIFFON.getIndex());
-        cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        cell.setCellStyle(cellStyle);
     }
 
 }

@@ -13,15 +13,19 @@ public class DaisoCrawler {
     private static String url = "";
     private static String code = "";
 
-    public List<String> process(String url, String code) {
-        List<String> dataList = new ArrayList();
+    WebDriver driver;
 
-        WebDriver driver = new ChromeDriver(
+    public DaisoCrawler() {
+        driver = new ChromeDriver(
                 new ChromeOptions()
                         .addArguments("--disable-popup-blocking")               //팝업안띄움
                         .addArguments("headless")                               //브라우저 안띄움
                         .addArguments("--disable-gpu")                          //gpu 비활성화
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
+    }
+
+    public List<String> process(String url, String code) {
+        List<String> dataList = new ArrayList();
 
         this.url = url;
         this.code = code;
@@ -29,12 +33,10 @@ public class DaisoCrawler {
         driver.get(url);    //브라우저에서 url로 이동한다.
         //Thread.sleep(2000); //브라우저 로딩될때까지 잠시 기다린다.
 
+        System.out.println("다이소에서 정보를 찾아오는 중");
         try {
-            System.out.println("다이소에서 정보를 찾아오는 중");
             dataList = getDataList(driver);
         } catch (Exception e) {
-            System.out.println("뭔가잘못됨");
-            e.printStackTrace();
             if(driver != null){
                 driver.close();
                 driver.quit();	//브라우저 닫기

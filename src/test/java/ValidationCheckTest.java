@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import utils.Login;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,15 +24,9 @@ public class ValidationCheckTest {
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
 
         // 로그인
+        Login login = new Login();
         String url = "https://www.daisomall.co.kr/mypage/order_detail.php?oid=20221007135428-39729";
-        String id = "sstlabs";
-        String pw = "Sstlabs1";
-        driver.get(url);
-        driver.findElement(By.name("id")).sendKeys(id);
-        driver.findElement(By.name("pw")).sendKeys(pw);
-        driver.findElement(By.name("pw")).sendKeys(Keys.ENTER);
-        out.println("로그인 완료");
-        Thread.sleep(5000);
+        login.run(driver, url);
 
         List<WebElement> list = driver.findElements(By.name("deliverymsg")).get(0).findElements(By.tagName("span")); // 상품명 리스트 추출
 
