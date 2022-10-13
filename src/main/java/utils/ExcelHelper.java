@@ -1,6 +1,7 @@
 package utils;
 
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -10,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ExcelHelper {
@@ -60,6 +63,19 @@ public class ExcelHelper {
         FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
         workbook.write(fileOut);
         fileOut.close();
+    }
+
+    public List<String> getUrlList(){
+        List<String> urlList = new ArrayList<>();
+        Iterator<Row> rowIterator = sheet.rowIterator();
+
+        while(rowIterator.hasNext()){
+            Row row = rowIterator.next();
+            urlList.add(row.getCell(5).getStringCellValue());
+        }
+
+        return urlList;
+
     }
 
 }

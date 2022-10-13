@@ -67,7 +67,7 @@ public class CrawlHelper {
 
                 try {
                     List<String> data = daisoCrawler.process(url, code);
-                    if (data.isEmpty()) continue;
+                    if (data.isEmpty() || data.get(0).equals("error")) continue;
                     excelHelper.enterData(data);
                 } catch (Exception e) {
                     System.out.println("상품을 찾을 수 없습니다. 엑셀에 입력되지 않습니다...");

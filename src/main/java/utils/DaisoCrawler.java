@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +13,15 @@ public class DaisoCrawler {
 
     private static String url = "";
     private static String code = "";
-
     WebDriver driver;
 
-    public List<String> process(String url, String code) {
+    /**
+     * url과 code(소분류코드)를 입력하면 다이소에서 값을 가져오는 메서드를 실행한다.
+     */
+    public List<String> process(String url, String code) throws IOException {
         List<String> dataList = new ArrayList();
 
+        // driver를 매번 초기화 해주어야 여러번 process를 진행할 수 있다.
         driver = new ChromeDriver(
                 new ChromeOptions()
                         .addArguments("--disable-popup-blocking")               //팝업안띄움
@@ -27,6 +31,14 @@ public class DaisoCrawler {
 
         this.url = url;
         this.code = code;
+
+        // 만약 엑셀에 이미 url이 입력되어 있다면 중복으로 처리하고 리스트를 입력하지 않는다
+        // TODO 그런데 만약 옵션이 있는거면 ???
+        ExcelHelper excelHelper = new ExcelHelper();
+        if(excelHelper.getUrlList().contains(url)){
+            System.out.println("이미 입력된 상품입니다. 엑셀에 입력되지 않습니다...");
+            return dataList;
+        }
 
         driver.get(url);    //브라우저에서 url로 이동한다.
         //Thread.sleep(2000); //브라우저 로딩될때까지 잠시 기다린다.
@@ -40,7 +52,6 @@ public class DaisoCrawler {
                 driver.quit();	//브라우저 닫기
             }
         }
-
         return dataList;
     }
 
