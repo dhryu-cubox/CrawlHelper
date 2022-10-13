@@ -59,12 +59,13 @@ public class CrawlHelper {
                 System.out.println("url을 입력하세요:");
                 String url = br.readLine();
                 if(url.trim().equalsIgnoreCase("exit")) return;
+
                 try {
                     List<String> data = daisoCrawler.process(url, code);
                     if (data.isEmpty()) continue;
                     excelHelper.enterData(data);
                 } catch (Exception e) {
-
+                    System.out.println("상품을 찾을 수 없습니다. 엑셀에 입력되지 않습니다...");
                 }
         }
     }
