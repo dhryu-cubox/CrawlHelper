@@ -109,9 +109,7 @@ public class DaisoCart {
         fileOut.close();
 
         out.println("장바구니 등록 완료\n등록실패한 상품은 아래와 같습니다.");
-        for(String e : errors){
-            out.printf("%s\n", e);
-        }
+        out.println(errors);
 
         driver.close();	//탭 닫기
         driver.quit();	//브라우저 닫기
