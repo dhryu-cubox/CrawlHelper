@@ -65,7 +65,6 @@ public class DaisoCart {
                 continue;
             }
 
-
             driver.get(url);    //브라우저에서 url로 이동한다.
             // 장바구니 버튼이 로딩될때까지 기다린다
             Thread.sleep(1000);

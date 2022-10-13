@@ -13,8 +13,14 @@ public class CrawlHelper {
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         while(true) {
-            System.out.println("1. 엑셀입력\n2. 장바구니담기\n3. 구매내역확인\nexit을 입력하면 종료합니다.");
+            System.out.println("" +
+                    "1: 엑셀입력\n" +
+                    "2: 장바구니담기\n" +
+                    "3: 구매내역확인\n" +
+                    "exit을 입력하면 종료합니다."
+            );
             String choice  = br.readLine();
             switch (choice) {
                 case "1":
@@ -35,10 +41,9 @@ public class CrawlHelper {
     private static void excelCheck() throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("영수증 번호를 입력하세요");
-        // TODO 영수증번호를 입력하세요
         String oid = br.readLine();
-        ExcelValidationCheck e = new ExcelValidationCheck();
-        e.findList(oid);
+        ExcelValidationCheck excelValidationCheck = new ExcelValidationCheck();
+        excelValidationCheck.findList(oid);
     }
 
     private static void cartInsert() throws Exception {

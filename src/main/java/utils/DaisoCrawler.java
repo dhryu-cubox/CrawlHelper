@@ -15,17 +15,15 @@ public class DaisoCrawler {
 
     WebDriver driver;
 
-    public DaisoCrawler() {
+    public List<String> process(String url, String code) {
+        List<String> dataList = new ArrayList();
+
         driver = new ChromeDriver(
                 new ChromeOptions()
                         .addArguments("--disable-popup-blocking")               //팝업안띄움
                         .addArguments("headless")                               //브라우저 안띄움
                         .addArguments("--disable-gpu")                          //gpu 비활성화
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
-    }
-
-    public List<String> process(String url, String code) {
-        List<String> dataList = new ArrayList();
 
         this.url = url;
         this.code = code;
@@ -48,7 +46,8 @@ public class DaisoCrawler {
 
 
     /**
-     * data가져오기
+     * WebDrvier로 각각의 data를 가져와서 리스트로 반환한다.
+     * VO를 만들까 했는데 엑셀에 입력할때 리스트에 다시 넣어야 해서 일단 리스트로 반환하게 만들었습니다...
      */
     private List<String> getDataList(WebDriver driver) throws InterruptedException {
         List<String> list = new ArrayList<>();
