@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class DaisoCrawler {
     /**
      * url과 code(소분류코드)를 입력하면 다이소에서 값을 가져오는 메서드를 실행한다.
      */
-    public List<String> process(String url, String code) throws IOException {
+    public List<String> process(String url, String code) throws Exception {
         List<String> dataList = new ArrayList();
 
         // driver를 매번 초기화 해주어야 여러번 process를 진행할 수 있다.
@@ -33,7 +32,7 @@ public class DaisoCrawler {
         this.code = code;
 
         // 만약 엑셀에 이미 url이 입력되어 있다면 중복으로 처리하고 리스트를 입력하지 않는다
-        // TODO 그런데 만약 옵션이 있는거면 ???
+        // TODO 옵션이 있으면 주소가 같을수밖에 없는데 이부분은 어떻게 처리할것인가? - 아직 옵션이 있는 상품은 크롤링하지않도록 하고있음
         ExcelHelper excelHelper = new ExcelHelper();
         if(excelHelper.getUrlList().contains(url)){
             System.out.println("이미 입력된 상품입니다. 엑셀에 입력되지 않습니다...");
@@ -57,10 +56,10 @@ public class DaisoCrawler {
 
 
     /**
-     * WebDrvier로 각각의 data를 가져와서 리스트로 반환한다.
+     * WebDrvier로 다이소몰의 데이터를 긁어와서 리스트로 반환한다.
      * VO를 만들까 했는데 엑셀에 입력할때 리스트에 다시 넣어야 해서 일단 리스트로 반환하게 만들었습니다...
      */
-    private List<String> getDataList(WebDriver driver) throws InterruptedException {
+    private List<String> getDataList(WebDriver driver) {
         List<String> list = new ArrayList<>();
 
         // 순번

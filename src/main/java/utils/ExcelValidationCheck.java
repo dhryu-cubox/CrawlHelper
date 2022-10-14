@@ -73,7 +73,7 @@ public class ExcelValidationCheck {
             XSSFCell cell = row.createCell(0);
             cell.setCellValue(elem.getText());
             cell = row.createCell(1);
-            cell.setCellFormula("COUNTIF('입고검사'!C:C,A"+(rowNum+1) +")");
+            cell.setCellFormula("COUNTIF('입고검사'!C:C,A"+(rowNum+1) +")"); // 동일한 소분류번호의 갯수를 확인하는 함수
             evaluator.evaluateFormulaCell(cell);
         }
         out.println("입력완료");

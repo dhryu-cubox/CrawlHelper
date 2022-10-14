@@ -1,7 +1,5 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.4'
-    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 }
 
 group 'com'
@@ -29,7 +27,6 @@ jar {
 }
 
 dependencies {
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java

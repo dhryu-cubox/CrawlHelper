@@ -7,10 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +42,7 @@ public class ExcelHelper {
         scrapedData.set(0, rowStr);
 
         // 엑셀에 데이터 입력하기
+        // 반복수를 줄이고 자율성을 높이기 위해 엑셀함수로 중복여부를 확인하게 함
         for(int cellNum = 0; cellNum <= 9; cellNum++){
             XSSFCell cell = row.createCell(cellNum);
             cell.setCellValue((String) scrapedData.get(cellNum));
@@ -65,15 +63,23 @@ public class ExcelHelper {
         fileOut.close();
     }
 
-    public List<String> getUrlList(){
+    /**
+     * 이미 입력된 url이 있는지 확인하기 위해 url 리스트를가져온다
+     */
+    public List<String> getUrlList() throws Exception {
         List<String> urlList = new ArrayList<>();
         Iterator<Row> rowIterator = sheet.rowIterator();
 
         while(rowIterator.hasNext()){
             Row row = rowIterator.next();
-            urlList.add(row.getCell(5).getStringCellValue());
+            urlList.add(row.getCell(5).getStringCellValue()); // 엑셀파일에 url을 리스트에 입력
         }
 
+        if(workbook != null) {
+            FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
+            workbook.write(fileOut);
+            fileOut.close();
+        }
         return urlList;
 
     }
