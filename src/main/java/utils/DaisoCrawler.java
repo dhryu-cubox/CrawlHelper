@@ -107,6 +107,8 @@ public class DaisoCrawler {
     }
 
     public void getOptions(String url) {
+        if(!url.contains("www.")) return;
+
         driver = new ChromeDriver(
                 new ChromeOptions()
                         .addArguments("--disable-popup-blocking")               //팝업안띄움
@@ -114,16 +116,22 @@ public class DaisoCrawler {
                         .addArguments("--disable-gpu")                          //gpu 비활성화
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
 
-        driver.get(url);
+        try {
+            driver.get(url);
+            List<WebElement> list = driver.findElements(By.xpath("//*[@id='_goods_options']"));
 
-        List<WebElement> list = driver.findElements(By.xpath("//*[@id='_goods_options']"));
-        if(list.isEmpty()){
-            System.out.println("옵션이 없습니다.");
-            return;
-        }
+            if(list.isEmpty()){
+                System.out.println("옵션이 없습니다.");
+                return;
+            }
+            System.out.println(list.get(0).getText());
 
-        for(WebElement a : list){
-            System.out.println(a.getText());
+        } catch (Exception e){
+            e.printStackTrace();
+            if(driver != null) {
+                driver.close();
+                driver.quit();    //브라우저 닫기
+            }
         }
 
         if(driver != null){
