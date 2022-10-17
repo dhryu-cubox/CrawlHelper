@@ -2,6 +2,7 @@ package utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -36,6 +37,10 @@ public class DaisoCrawler {
         ExcelHelper excelHelper = new ExcelHelper();
         if(excelHelper.getUrlList().contains(url)){
             System.out.println("이미 입력된 상품입니다. 엑셀에 입력되지 않습니다...");
+            if(driver != null){
+                driver.close();
+                driver.quit();	//브라우저 닫기
+            }
             return dataList;
         }
 
@@ -51,6 +56,7 @@ public class DaisoCrawler {
                 driver.quit();	//브라우저 닫기
             }
         }
+
         return dataList;
     }
 
@@ -98,5 +104,32 @@ public class DaisoCrawler {
         }
 
         return list;
+    }
+
+    public void getOptions(String url) {
+        driver = new ChromeDriver(
+                new ChromeOptions()
+                        .addArguments("--disable-popup-blocking")               //팝업안띄움
+                        .addArguments("headless")                               //브라우저 안띄움
+                        .addArguments("--disable-gpu")                          //gpu 비활성화
+                        .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
+
+        driver.get(url);
+
+        List<WebElement> list = driver.findElements(By.xpath("//*[@id='_goods_options']"));
+        if(list.isEmpty()){
+            System.out.println("옵션이 없습니다.");
+            return;
+        }
+
+        for(WebElement a : list){
+            System.out.println(a.getText());
+        }
+
+        if(driver != null){
+            driver.close();
+            driver.quit();	//브라우저 닫기
+        }
+
     }
 }

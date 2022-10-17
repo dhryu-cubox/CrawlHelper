@@ -17,13 +17,15 @@ public class ExcelHelper {
     private XSSFWorkbook workbook;
     public ExcelHelper() throws IOException {
         try {
-            InputStream inp = new FileInputStream("구매 예정 리스트.xlsx");
+            //InputStream inp = new FileInputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+            InputStream inp = new FileInputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); //배포용
             workbook = new XSSFWorkbook(inp);
             sheet = workbook.getSheetAt(0);
         } catch (Exception e){
             e.printStackTrace();
             if(workbook != null) {
-                FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
+                //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+                FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); // 배포용
                 workbook.write(fileOut);
                 fileOut.close();
             }
@@ -58,7 +60,8 @@ public class ExcelHelper {
         System.out.println(sheet.getPhysicalNumberOfRows()-1+"번째 줄 생성 완료");
         System.out.println(scrapedData);
 
-        FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
+        //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+        FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); // 배포용
         workbook.write(fileOut);
         fileOut.close();
     }
@@ -76,7 +79,8 @@ public class ExcelHelper {
         }
 
         if(workbook != null) {
-            FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
+            //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+            FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); // 배포용
             workbook.write(fileOut);
             fileOut.close();
         }

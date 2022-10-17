@@ -12,7 +12,7 @@ public class CrawlHelper {
                     "1: 다이소\n" +
                     "2: 쿠팡\n" +
                     "3: 지마켓\n" +
-                    "exit을 입력하면 종료합니다."
+                    "x를 입력하면 종료합니다."
             );
             String choice  = br.readLine();
             switch (choice) {
@@ -25,10 +25,10 @@ public class CrawlHelper {
                 case "3" :
                     gmarketRun();
                     break;
-                case "exit": // switch 문을 나간다.
+                case "x": // switch 문을 나간다.
                 default:     break;
             }
-            if(choice.equalsIgnoreCase("exit")) break; // 프로그램을 끝낸다.
+            if(choice.equalsIgnoreCase("x")) break; // 프로그램을 끝낸다.
         }
         System.out.println("---good bye---");
     }
@@ -48,10 +48,11 @@ public class CrawlHelper {
 
         while(true) {
             System.out.println("---다이소몰을 선택하셨습니다.---\n" +
-                    "1: 엑셀입력\n" +
-                    "2: 장바구니담기\n" +
-                    "3: 구매내역확인\n" +
-                    "exit을 입력하면 돌아갑니다."
+                    "1: 엑셀 입력\n" +
+                    "2: 옵션 가져오기\n" +
+                    "3: 장바구니 담기\n" +
+                    "4: 구매내역 확인\n" +
+                    "x를 입력하면 돌아갑니다."
             );
             String choice  = br.readLine();
             switch (choice) {
@@ -59,14 +60,18 @@ public class CrawlHelper {
                     daisoController.excelInsert();
                     break;
                 case "2":
-                    daisoController.cartInsert();
+                    daisoController.getOptions();
                     break;
                 case "3" :
+                    daisoController.cartInsert();
+                    break;
+                case "4" :
                     daisoController.excelCheck();
-                case "exit":
+                    break;
+                case "x":
                 default:     break;
             }
-            if(choice.equalsIgnoreCase("exit")) break;
+            if(choice.equalsIgnoreCase("x")) break;
         }
 
     }

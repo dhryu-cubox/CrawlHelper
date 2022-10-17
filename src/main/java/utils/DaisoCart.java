@@ -39,7 +39,8 @@ public class DaisoCart {
         Login login = new Login();
         login.run(driver, "https://www.daisomall.co.kr/member/login.php?url=");
 
-        InputStream inp = new FileInputStream("구매 예정 리스트.xlsx");
+        //InputStream inp = new FileInputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+        InputStream inp = new FileInputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); // 배포용
         workbook = new XSSFWorkbook(inp);
         sheet = workbook.getSheetAt(0);
         List<String> errors = new ArrayList<>();
@@ -56,7 +57,7 @@ public class DaisoCart {
             if (rowNum == 0) {
                 continue; // 첫번째 열 skip
             }
-
+            try {
             String url = row.getCell(5).getStringCellValue(); // url
             String option = row.getCell(7).getStringCellValue(); // 옵션
 
@@ -74,7 +75,7 @@ public class DaisoCart {
                 Select select = new Select(driver.findElement(By.xpath("//*[@id='_goods_options']")));
                 select.selectByVisibleText(option);
             }
-            try {
+
                 // 장바구니 담기
                 jsExecutor.executeScript("goCart(document.pinfo, true,'')");
 
@@ -103,7 +104,8 @@ public class DaisoCart {
             }
         }
         // 엑셀 저장
-        FileOutputStream fileOut = new FileOutputStream("구매 예정 리스트.xlsx");
+        //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\구매 예정 리스트.xlsx"); // 로컬
+        FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\구매 예정 리스트.xlsx"); // 배포용
         workbook.write(fileOut);
         fileOut.close();
 

@@ -23,16 +23,17 @@ public class ExcelValidationCheck {
 
     private XSSFSheet sheet;
     private XSSFWorkbook workbook;
-    private Login login;
 
     public ExcelValidationCheck() throws IOException {
         try {
-            InputStream inp = new FileInputStream("장바구니 리스트.xlsx");
+            //InputStream inp = new FileInputStream("C:\\Works\\CrawlHelper\\장바구니 리스트.xlsx"); // 로컬
+            InputStream inp = new FileInputStream("C:\\CrawlHelper\\장바구니 리스트.xlsx"); // 배포용
             workbook = new XSSFWorkbook(inp);
         } catch (Exception e){
             e.printStackTrace();
             if(workbook !=null) {
-                FileOutputStream fileOut = new FileOutputStream("장바구니 리스트.xlsx");
+                //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\장바구니 리스트.xlsx"); //로컬
+                FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\장바구니 리스트.xlsx"); // 배포용
                 workbook.write(fileOut);
                 fileOut.close();
             }
@@ -57,34 +58,42 @@ public class ExcelValidationCheck {
                         .addArguments("--disable-gpu")                          //gpu 비활성화
                         .addArguments("--blink-settings=imagesEnabled=false")); //이미지 다운 안받음
         // 로그인
+        Login login = new Login();
         String url = "https://www.daisomall.co.kr/mypage/order_detail.php?oid="+ oid;
         login.run(driver, url);
 
-        // 상품명 리스트 추출
-        List<WebElement> productNameList = driver.findElements(By.name("deliverymsg")).get(0)
-                .findElements(By.tagName("span"));
+        try {
+            // 상품명 리스트 추출
+            List<WebElement> productNameList = driver.findElements(By.name("deliverymsg")).get(0)
+                    .findElements(By.tagName("span"));
 
-        for(WebElement elem : productNameList){
-            // 행 만들기
-            int rowNum = sheet.getPhysicalNumberOfRows();
-            XSSFRow row = sheet.createRow(rowNum);
+            for (WebElement elem : productNameList) {
+                // 행 만들기
+                int rowNum = sheet.getPhysicalNumberOfRows();
+                XSSFRow row = sheet.createRow(rowNum);
 
-            // 셀 입력
-            XSSFCell cell = row.createCell(0);
-            cell.setCellValue(elem.getText());
-            cell = row.createCell(1);
-            cell.setCellFormula("COUNTIF('입고검사'!C:C,A"+(rowNum+1) +")"); // 동일한 소분류번호의 갯수를 확인하는 함수
-            evaluator.evaluateFormulaCell(cell);
+                // 셀 입력
+                XSSFCell cell = row.createCell(0);
+                cell.setCellValue(elem.getText());
+                cell = row.createCell(1);
+                cell.setCellFormula("COUNTIF('입고검사'!C:C,A" + (rowNum + 1) + ")"); // 동일한 소분류번호의 갯수를 확인하는 함수
+                evaluator.evaluateFormulaCell(cell);
+            }
+            out.println("입력완료");
+
+        } catch (Exception e){
+            out.println("엑셀 입력 실패");
+
+        } finally {
+            driver.close();
+            driver.quit();
+            if (workbook != null) {
+                //FileOutputStream fileOut = new FileOutputStream("C:\\Works\\CrawlHelper\\장바구니 리스트.xlsx"); // 로컬
+                FileOutputStream fileOut = new FileOutputStream("C:\\CrawlHelper\\장바구니 리스트.xlsx"); // 배포용
+                workbook.write(fileOut);
+                fileOut.close();
+            }
         }
-        out.println("입력완료");
-
-        if(workbook != null) {
-            FileOutputStream fileOut = new FileOutputStream("장바구니 리스트.xlsx");
-            workbook.write(fileOut);
-            fileOut.close();
-        }
-        driver.close();	//탭 닫기
-        driver.quit();	//브라우저 닫기
 
     }
 
