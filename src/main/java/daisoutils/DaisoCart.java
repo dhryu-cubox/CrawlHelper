@@ -1,11 +1,11 @@
-package utils;
+package daisoutils;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -59,7 +59,13 @@ public class DaisoCart {
             }
             try {
             String url = row.getCell(5).getStringCellValue(); // url
-            String option = row.getCell(7).getStringCellValue(); // 옵션
+            CellType cellType = row.getCell(7).getCellType(); // 옵션
+            String option = "";
+            if(cellType.name().equals("NUMERIC")){
+                option = String.valueOf(row.getCell(7).getNumericCellValue()); // 옵션이 숫자일때
+            } else {
+                option = row.getCell(7).getStringCellValue(); // 옵션이 문자일때
+            }
 
             if (row.getCell(9).getStringCellValue().equals("중복")) {
                 out.println(rowNum + "번 중복 상품입니다. 장바구니에 등록되지 않습니다.");
