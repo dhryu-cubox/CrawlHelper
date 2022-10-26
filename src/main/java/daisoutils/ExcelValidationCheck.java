@@ -1,4 +1,4 @@
-package utils;
+package daisoutils;
 
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -78,6 +78,8 @@ public class ExcelValidationCheck {
                 cell = row.createCell(1);
                 cell.setCellFormula("COUNTIF('입고검사'!C:C,A" + (rowNum + 1) + ")"); // 동일한 소분류번호의 갯수를 확인하는 함수
                 evaluator.evaluateFormulaCell(cell);
+
+                out.println(elem.getText());
             }
             out.println("입력완료");
 

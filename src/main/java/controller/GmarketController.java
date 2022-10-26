@@ -1,23 +1,22 @@
 package controller;
 
-import daisoutils.DaisoCart;
-import daisoutils.DaisoCrawler;
 import daisoutils.ExcelHelper;
-import daisoutils.ExcelValidationCheck;
+import gmarketutils.ExcelValidationCheck;
+import gmarketutils.GmarketCrawler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class DaisoController {
-    public DaisoController() {
-        //System.setProperty("webdriver.chrome.driver","C:\\Works\\CrawlHelper\\chromedriver.exe"); // 로컬
-        System.setProperty("webdriver.chrome.driver","C:\\CrawlHelper\\chromedriver.exe"); // 배포용
+public class GmarketController {
+    public GmarketController() {
+        System.setProperty("webdriver.chrome.driver","C:\\Works\\CrawlHelper\\chromedriver.exe"); // 로컬
+        //System.setProperty("webdriver.chrome.driver","C:\\CrawlHelper\\chromedriver.exe"); // 배포용
     }
 
     public void excelCheck() throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("영수증 번호를 입력하세요");
+        System.out.println("주문 번호를 입력하세요");
         String oid = br.readLine();
         if(oid.trim().equalsIgnoreCase("x")) return;
         ExcelValidationCheck excelValidationCheck = new ExcelValidationCheck();
@@ -25,13 +24,10 @@ public class DaisoController {
     }
 
     public void cartInsert() throws Exception {
-        DaisoCart cart = new DaisoCart();
-        System.out.println("장바구니 입력을 시작합니다");
-        cart.insert();
     }
 
     public void excelInsert() throws Exception {
-        DaisoCrawler daisoCrawler = new DaisoCrawler();
+        GmarketCrawler gmarketCrawler = new GmarketCrawler();
         ExcelHelper excelHelper = new ExcelHelper();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while(true) {
@@ -44,7 +40,7 @@ public class DaisoController {
             if(url.trim().equalsIgnoreCase("x")) return;
 
             try {
-                List<String> data = daisoCrawler.process(url, code);
+                List<String> data = gmarketCrawler.process(url, code);
                 if (data.isEmpty()) continue;
                 excelHelper.enterData(data);
             } catch (Exception e) {
@@ -55,14 +51,6 @@ public class DaisoController {
     }
 
     public void getOptions() throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("url을 입력하세요");
-        String url = br.readLine();
-        if(url.trim().equalsIgnoreCase("x")) return;
-
-        DaisoCrawler daisoCrawler = new DaisoCrawler();
-        daisoCrawler.getOptions(url);
 
 
     }
